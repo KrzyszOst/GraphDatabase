@@ -1,0 +1,42 @@
+1. What is the average rating for each movie?
+MATCH (movie:Movie)<-[r:RATED]-(user:User)
+RETURN movie.title, round(AVG(r.rating),2) AS average_rating
+
+2. How many movies did each user rate, and what is their average rating?
+match (u:User)-[r:RATED]->(m:Movie) return u.name,count(r), round(avg(r.rating),2) as Avg_rating Order by Avg_rating desc
+
+3. What movies belong to each genre?
+MATCH (genre:Genre)<-[:IN_GENRE]-(movie:Movie)
+RETURN genre.name, collect(movie.title)
+
+4. Which movie has the most ratings?
+MATCH (movie:Movie)<-[:RATED]-(user:User)
+RETURN movie.title, COUNT(user) AS rating_count
+ORDER BY rating_count DESC
+LIMIT 1
+
+5. Which actors have acted in Sci-Fi or Action movies?
+MATCH (actor:Actor)-[:ACTED_IN]->(movie:Movie)-[:IN_GENRE]->(genre:Genre)
+WHERE genre.name IN ["Sci-Fi", "Action"]
+RETURN DISTINCT actor.name, actor.surname
+
+6. What is the best-rated movie in each genre?
+MATCH (user:User)-[r:RATED]->(movie:Movie)-[:IN_GENRE]->(genre:Genre)
+WITH genre, movie, round(AVG(r.rating),2) AS avg_rating
+ORDER BY genre, avg_rating DESC
+WITH genre, COLLECT(movie { .title, avg_rating })[0] AS best_movie
+RETURN genre.name AS Genre, best_movie.title AS Movie, best_movie.avg_rating AS AverageRating
+
+7. What is the average rating for movies rated by users older than 30?
+MATCH (user:User)-[r:RATED]->(movie:Movie)
+WHERE duration.between(user.birthDate, date()).years >= 30  
+RETURN   movie.title, AVG(r.rating) AS avg_rating,count(r.rating)
+
+8.
+MATCH (m:Movie {title:'The Matrix'})<-[:RATED]-(u:User)-[:RATED]->(rec:Movie)
+RETURN 
+    rec.title AS recommended_movie, 
+    COUNT(u) AS shared_users, 
+    COLLECT(u.name) AS shared_user_names
+ORDER BY shared_users DESC
+

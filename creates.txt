@@ -1,0 +1,93 @@
+CREATE
+// Users 
+(user1:User {name: "Alice", surname: "Johnson", birthDate: date("1999-05-15")}),
+(user2:User {name: "Bob", surname: "Smith", birthDate: date("1994-07-20")}),
+(user3:User {name: "Charlie", surname: "Brown", birthDate: date("2002-03-12")}),
+(user4:User {name: "Diana", surname: "Green", birthDate: date("1996-11-30")}),
+(user5:User {name: "Eve", surname: "White", birthDate: date("1989-02-28")}),
+(user6:User {name: "Frank", surname: "Black", birthDate: date("1983-09-10")}),
+
+// Movies
+(movie1:Movie {title: "Inception", releaseYear: 2010}),
+(movie2:Movie {title: "Titanic", releaseYear: 1997}),
+(movie3:Movie {title: "The Matrix", releaseYear: 1999}),
+(movie4:Movie {title: "Avatar", releaseYear: 2009}),
+
+// Actors 
+(actor1:Actor {name: "Leonardo", surname: "DiCaprio"}),
+(actor2:Actor {name: "Keanu", surname: "Reeves"}),
+(actor3:Actor {name: "Joseph", surname: "Gordon-Levitt"}),
+(actor4:Actor {name: "Kate", surname: "Winslet"}),
+(actor5:Actor {name: "Carrie-Anne", surname: "Moss"}),
+(actor6:Actor {name: "Laurence", surname: "Fishburne"}),
+(actor7:Actor {name: "Sam", surname: "Worthington"}),
+(actor8:Actor {name: "Zoe", surname: "Saldana"}),
+
+// Directors
+(director1:Director {name: "Christopher", surname: "Nolan"}),
+(director2:Director {name: "James", surname: "Cameron"}),
+(director3:Director {name: "Lana", surname: "Wachowski"}),
+(director4:Director {name: "Lilly", surname: "Wachowski"}),
+
+// Genres
+(genre1:Genre {name: "Sci-Fi"}),
+(genre2:Genre {name: "Drama"}),
+(genre3:Genre {name: "Action"}),
+
+// Relationships
+// Ratings 
+(user1)-[:RATED {rating: 1}]->(movie1),
+(user2)-[:RATED {rating: 4}]->(movie1),
+(user3)-[:RATED {rating: 5}]->(movie1),
+(user1)-[:RATED {rating: 2}]->(movie2),
+(user2)-[:RATED {rating: 4}]->(movie2),
+(user4)-[:RATED {rating: 3}]->(movie2),
+(user6)-[:RATED {rating: 4}]->(movie2),
+(user5)-[:RATED {rating: 5}]->(movie2),
+(user3)-[:RATED {rating: 5}]->(movie3),
+(user4)-[:RATED {rating: 4}]->(movie3),
+(user5)-[:RATED {rating: 4}]->(movie3),
+(user6)-[:RATED {rating: 3}]->(movie3),
+(user1)-[:RATED {rating: 4}]->(movie4),
+(user5)-[:RATED {rating: 3}]->(movie4),
+(user2)-[:RATED {rating: 2}]->(movie4),
+
+//Actor to Movie Connections
+(actor1)-[:ACTED_IN]->(movie1),  
+(actor1)-[:ACTED_IN]->(movie2), 
+(actor3)-[:ACTED_IN]->(movie1),  
+(actor8)-[:ACTED_IN]->(movie4),  
+(actor4)-[:ACTED_IN]->(movie2),  
+(actor2)-[:ACTED_IN]->(movie3),  
+(actor5)-[:ACTED_IN]->(movie3),  
+(actor6)-[:ACTED_IN]->(movie3),  
+(actor4)-[:ACTED_IN]->(movie4), 
+(actor7)-[:ACTED_IN]->(movie4),  
+
+// Directors of Movies
+(director1)-[:DIRECTED]->(movie1),
+(director2)-[:DIRECTED]->(movie2),
+(director3)-[:DIRECTED]->(movie3),
+(director2)-[:DIRECTED]->(movie4),
+(director4)-[:DIRECTED]->(movie3),
+
+// Genres of Movies
+(movie1)-[:IN_GENRE]->(genre1),
+(movie1)-[:IN_GENRE]->(genre3),
+(movie2)-[:IN_GENRE]->(genre2),
+(movie2)-[:IN_GENRE]->(genre3),
+(movie3)-[:IN_GENRE]->(genre1),
+(movie3)-[:IN_GENRE]->(genre3),
+(movie4)-[:IN_GENRE]->(genre2),
+(movie4)-[:IN_GENRE]->(genre1),
+
+// Users liking Genres
+(user1)-[:LIKES]->(genre1),
+(user1)-[:LIKES]->(genre3),
+(user2)-[:LIKES]->(genre2),
+(user3)-[:LIKES]->(genre1),
+(user3)-[:LIKES]->(genre3),
+(user4)-[:LIKES]->(genre3),
+(user5)-[:LIKES]->(genre1),
+(user6)-[:LIKES]->(genre2),
+(user6)-[:LIKES]->(genre3);
